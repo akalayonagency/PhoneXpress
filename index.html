@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Demande de réparation - Phone Xpress</title>
+  <style>
+    :root {
+      --px-blue: #1497e8;
+      --px-blue-dark: #056bb1;
+      --px-white: #ffffff;
+      --px-grey: rgba(255,255,255,0.76);
+      --px-dark: rgba(10, 15, 22, 0.86);
+      --px-border: rgba(255,255,255,0.22);
+      --px-shadow: rgba(0, 153, 255, 0.35);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background: transparent;
+      color: var(--px-white);
+    }
+
+    .px-wrapper {
+      width: 100%;
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 24px;
+      background: transparent;
+    }
+
+    .px-card {
+      position: relative;
+      overflow: hidden;
+      border: 1px solid var(--px-border);
+      border-radius: 22px;
+      background: linear-gradient(135deg, rgba(8, 16, 26, 0.92), rgba(10, 10, 10, 0.76));
+      box-shadow: 0 22px 60px rgba(0,0,0,0.35), 0 0 34px var(--px-shadow);
+      backdrop-filter: blur(10px);
+    }
+
+    .px-card::before {
+      content: "";
+      position: absolute;
+      inset: -40%;
+      background:
+        radial-gradient(circle at 18% 20%, rgba(20,151,232,0.32), transparent 32%),
+        radial-gradient(circle at 88% 14%, rgba(255,255,255,0.12), transparent 22%),
+        linear-gradient(115deg, transparent 44%, rgba(20,151,232,0.28) 45%, rgba(255,255,255,0.82) 48%, rgba(20,151,232,0.25) 51%, transparent 52%);
+      pointer-events: none;
+    }
+
+    .px-content {
+      position: relative;
+      padding: 30px;
+    }
+
+    .px-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      margin-bottom: 24px;
+      border-bottom: 1px solid rgba(255,255,255,0.14);
+      padding-bottom: 20px;
+    }
+
+    .px-title h1 {
+      margin: 0;
+      font-size: clamp(26px, 4vw, 42px);
+      line-height: 1;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      text-shadow: 0 0 18px rgba(20,151,232,0.75);
+    }
+
+    .px-title span {
+      color: var(--px-blue);
+    }
+
+    .px-title p {
+      margin: 8px 0 0;
+      color: var(--px-grey);
+      font-weight: 700;
+      font-style: italic;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .px-badge {
+      min-width: 130px;
+      padding: 12px 16px;
+      border-radius: 16px;
+      background: linear-gradient(135deg, var(--px-blue), var(--px-blue-dark));
+      text-align: center;
+      font-weight: 800;
+      text-transform: uppercase;
+      box-shadow: 0 10px 28px rgba(20,151,232,0.38);
+    }
+
+    form {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+    }
+
+    .field.full { grid-column: 1 / -1; }
+
+    label {
+      font-size: 14px;
+      font-weight: 800;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.9);
+      letter-spacing: 0.5px;
+    }
+
+    input, select, textarea {
+      width: 100%;
+      border: 1px solid rgba(255,255,255,0.18);
+      border-radius: 14px;
+      background: rgba(255,255,255,0.1);
+      color: var(--px-white);
+      padding: 14px 15px;
+      font-size: 16px;
+      outline: none;
+      transition: 0.2s ease;
+    }
+
+    select option {
+      color: #111;
+      background: #fff;
+    }
+
+    textarea {
+      min-height: 130px;
+      resize: vertical;
+    }
+
+    input:focus, select:focus, textarea:focus {
+      border-color: var(--px-blue);
+      box-shadow: 0 0 0 4px rgba(20,151,232,0.18), 0 0 22px rgba(20,151,232,0.24);
+      background: rgba(255,255,255,0.14);
+    }
+
+    .px-note {
+      grid-column: 1 / -1;
+      padding: 13px 15px;
+      border-radius: 14px;
+      background: rgba(20,151,232,0.14);
+      border: 1px solid rgba(20,151,232,0.28);
+      color: rgba(255,255,255,0.88);
+      font-size: 14px;
+    }
+
+    .px-actions {
+      grid-column: 1 / -1;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 14px;
+      margin-top: 8px;
+    }
+
+    button {
+      border: 0;
+      border-radius: 16px;
+      padding: 15px 24px;
+      color: var(--px-white);
+      background: linear-gradient(135deg, var(--px-blue), var(--px-blue-dark));
+      font-size: 16px;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      cursor: pointer;
+      box-shadow: 0 14px 32px rgba(20,151,232,0.38);
+      transition: transform 0.18s ease, box-shadow 0.18s ease;
+    }
+
+    button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 18px 42px rgba(20,151,232,0.52);
+    }
+
+    .px-call {
+      color: rgba(255,255,255,0.84);
+      font-size: 14px;
+    }
+
+    .px-call strong { color: var(--px-blue); }
+
+    .success-page {
+      display: none;
+      text-align: center;
+      padding: 46px 28px;
+    }
+
+    .success-page h2 {
+      margin: 0 0 14px;
+      font-size: clamp(28px, 4vw, 46px);
+      text-transform: uppercase;
+      text-shadow: 0 0 20px rgba(20,151,232,0.72);
+    }
+
+    .success-page p {
+      max-width: 680px;
+      margin: 0 auto 20px;
+      color: rgba(255,255,255,0.84);
+      font-size: 18px;
+      line-height: 1.5;
+    }
+
+    .success-call {
+      display: inline-block;
+      margin-top: 8px;
+      padding: 16px 20px;
+      border-radius: 18px;
+      background: rgba(20,151,232,0.16);
+      border: 1px solid rgba(20,151,232,0.34);
+      font-size: 18px;
+      font-weight: 800;
+    }
+
+    .success-call a {
+      color: var(--px-blue);
+      text-decoration: none;
+    }
+
+    .back-btn {
+      margin-top: 24px;
+      background: rgba(255,255,255,0.14);
+      box-shadow: none;
+    }
+
+    @media (max-width: 720px) {
+      .px-wrapper { padding: 14px; }
+      .px-content { padding: 22px; }
+      .px-header { align-items: flex-start; flex-direction: column; }
+      .px-badge { width: 100%; }
+      form { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="px-wrapper">
+    <div class="px-card">
+      <div class="px-content" id="formPage">
+        <div class="px-header">
+          <div class="px-title">
+            <h1>Phone <span>X</span>press</h1>
+            <p>Atelier de réparation mobile</p>
+          </div>
+          <div class="px-badge">Diagnostic rapide</div>
+        </div>
+
+        <form id="repairForm">
+          <div class="field">
+            <label for="nom">Nom et prénom *</label>
+            <input type="text" id="nom" name="Nom et prénom" placeholder="Ex : Jean Dupont" required />
+          </div>
+
+          <div class="field">
+            <label for="contact">Portable ou mail *</label>
+            <input type="text" id="contact" name="Contact" placeholder="06.XX.XX.XX.XX ou mail" required />
+          </div>
+
+          <div class="field">
+            <label for="modele">Modèle iPhone *</label>
+            <select id="modele" name="Modèle iPhone" required>
+              <option value="">Sélectionnez votre modèle</option>
+              <option>iPhone 6</option>
+              <option>iPhone 6 Plus</option>
+              <option>iPhone 6s</option>
+              <option>iPhone 6s Plus</option>
+              <option>iPhone SE 1re génération</option>
+              <option>iPhone 7</option>
+              <option>iPhone 7 Plus</option>
+              <option>iPhone 8</option>
+              <option>iPhone 8 Plus</option>
+              <option>iPhone X</option>
+              <option>iPhone XR</option>
+              <option>iPhone XS</option>
+              <option>iPhone XS Max</option>
+              <option>iPhone 11</option>
+              <option>iPhone 11 Pro</option>
+              <option>iPhone 11 Pro Max</option>
+              <option>iPhone SE 2e génération</option>
+              <option>iPhone 12 mini</option>
+              <option>iPhone 12</option>
+              <option>iPhone 12 Pro</option>
+              <option>iPhone 12 Pro Max</option>
+              <option>iPhone 13 mini</option>
+              <option>iPhone 13</option>
+              <option>iPhone 13 Pro</option>
+              <option>iPhone 13 Pro Max</option>
+              <option>iPhone SE 3e génération</option>
+              <option>iPhone 14</option>
+              <option>iPhone 14 Plus</option>
+              <option>iPhone 14 Pro</option>
+              <option>iPhone 14 Pro Max</option>
+              <option>iPhone 15</option>
+              <option>iPhone 15 Plus</option>
+              <option>iPhone 15 Pro</option>
+              <option>iPhone 15 Pro Max</option>
+              <option>iPhone 16</option>
+              <option>iPhone 16 Plus</option>
+              <option>iPhone 16 Pro</option>
+              <option>iPhone 16 Pro Max</option>
+              <option>iPhone 16e</option>
+              <option>iPhone 17</option>
+              <option>iPhone 17 Pro</option>
+              <option>iPhone 17 Pro Max</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label for="probleme1">Problème principal *</label>
+            <select id="probleme1" name="Problème principal" required>
+              <option value="">Choisir le problème</option>
+              <option>Écran cassé / tactile</option>
+              <option>Batterie</option>
+              <option>Vitre arrière</option>
+              <option>Caméra avant</option>
+              <option>Caméra arrière</option>
+              <option>Connecteur de charge</option>
+              <option>Haut-parleur</option>
+              <option>Micro</option>
+              <option>Boutons / Face ID</option>
+              <option>Téléphone tombé dans l'eau</option>
+              <option>Diagnostic / autre panne</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label for="probleme2">Problème secondaire</label>
+            <select id="probleme2" name="Problème secondaire">
+              <option value="">Aucun / non concerné</option>
+              <option>Écran cassé / tactile</option>
+              <option>Batterie</option>
+              <option>Vitre arrière</option>
+              <option>Caméra avant</option>
+              <option>Caméra arrière</option>
+              <option>Connecteur de charge</option>
+              <option>Haut-parleur</option>
+              <option>Micro</option>
+              <option>Boutons / Face ID</option>
+              <option>Téléphone tombé dans l'eau</option>
+              <option>Diagnostic / autre panne</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label for="probleme3">Autre problème</label>
+            <select id="probleme3" name="Autre problème">
+              <option value="">Aucun / non concerné</option>
+              <option>Écran cassé / tactile</option>
+              <option>Batterie</option>
+              <option>Vitre arrière</option>
+              <option>Caméra avant</option>
+              <option>Caméra arrière</option>
+              <option>Connecteur de charge</option>
+              <option>Haut-parleur</option>
+              <option>Micro</option>
+              <option>Boutons / Face ID</option>
+              <option>Téléphone tombé dans l'eau</option>
+              <option>Diagnostic / autre panne</option>
+            </select>
+          </div>
+
+          <div class="field full">
+            <label for="description">Décrivez le problème</label>
+            <textarea id="description" name="Description" placeholder="Ex : écran noir, batterie qui ne tient plus, téléphone tombé, Face ID HS..."></textarea>
+          </div>
+
+          <div class="px-note">
+            Une fois validée, la demande ouvre votre messagerie avec toutes les informations pré-remplies. Pour une réception automatique sans ouverture de messagerie, il faudra brancher ce formulaire à un service type Formspree, Brevo, Make/Zapier ou à un petit script PHP.
+          </div>
+
+          <div class="px-actions">
+            <button type="submit">Envoyer ma demande</button>
+            <div class="px-call">Besoin d'une réponse express ? <strong>06.XX.XX.XX.XX</strong></div>
+          </div>
+        </form>
+      </div>
+
+      <div class="success-page" id="successPage">
+        <h2>Demande bien envoyée</h2>
+        <p>Merci ! Votre demande de réparation a bien été préparée. Nous revenons vers vous rapidement pour le diagnostic et le tarif.</p>
+        <div class="success-call">
+          Vous souhaitez une réponse plus rapide ?<br />
+          Appelez directement le <a href="tel:06XXXXXXXX">06.XX.XX.XX.XX</a>
+        </div>
+        <br />
+        <button class="back-btn" type="button" onclick="retourFormulaire()">Faire une autre demande</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const EMAIL_DESTINATION = "contact@phonexpress.fr"; // Remplace par ton vrai mail
+    const TELEPHONE_DIRECT = "06.XX.XX.XX.XX"; // Remplace par ton vrai numéro
+
+    document.querySelectorAll(".px-call strong, .success-call a").forEach(el => {
+      el.textContent = TELEPHONE_DIRECT;
+      if (el.tagName.toLowerCase() === "a") {
+        el.href = "tel:" + TELEPHONE_DIRECT.replace(/\D/g, "");
+      }
+    });
+
+    document.getElementById("repairForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+
+      const form = e.target;
+      const data = new FormData(form);
+      const subject = "Nouvelle demande de réparation Phone Xpress";
+
+      let body = "Nouvelle demande de réparation :\n\n";
+      for (const [key, value] of data.entries()) {
+        body += key + " : " + (value || "Non renseigné") + "\n";
+      }
+
+      const mailtoLink = "mailto:" + encodeURIComponent(EMAIL_DESTINATION)
+        + "?subject=" + encodeURIComponent(subject)
+        + "&body=" + encodeURIComponent(body);
+
+      window.location.href = mailtoLink;
+
+      document.getElementById("formPage").style.display = "none";
+      document.getElementById("successPage").style.display = "block";
+    });
+
+    function retourFormulaire() {
+      document.getElementById("successPage").style.display = "none";
+      document.getElementById("formPage").style.display = "block";
+      document.getElementById("repairForm").reset();
+    }
+  </script>
+</body>
+</html>
