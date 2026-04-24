@@ -306,52 +306,30 @@
           </div>
 
           <div class="field">
-            <label for="modele">Modèle iPhone *</label>
-            <select id="modele" name="Modèle iPhone" required>
-              <option value="">Sélectionnez votre modèle</option>
-              <option>iPhone 6</option>
-              <option>iPhone 6 Plus</option>
-              <option>iPhone 6s</option>
-              <option>iPhone 6s Plus</option>
-              <option>iPhone SE 1re génération</option>
-              <option>iPhone 7</option>
-              <option>iPhone 7 Plus</option>
-              <option>iPhone 8</option>
-              <option>iPhone 8 Plus</option>
-              <option>iPhone X</option>
-              <option>iPhone XR</option>
-              <option>iPhone XS</option>
-              <option>iPhone XS Max</option>
-              <option>iPhone 11</option>
-              <option>iPhone 11 Pro</option>
-              <option>iPhone 11 Pro Max</option>
-              <option>iPhone SE 2e génération</option>
-              <option>iPhone 12 mini</option>
-              <option>iPhone 12</option>
-              <option>iPhone 12 Pro</option>
-              <option>iPhone 12 Pro Max</option>
-              <option>iPhone 13 mini</option>
-              <option>iPhone 13</option>
-              <option>iPhone 13 Pro</option>
-              <option>iPhone 13 Pro Max</option>
-              <option>iPhone SE 3e génération</option>
-              <option>iPhone 14</option>
-              <option>iPhone 14 Plus</option>
-              <option>iPhone 14 Pro</option>
-              <option>iPhone 14 Pro Max</option>
-              <option>iPhone 15</option>
-              <option>iPhone 15 Plus</option>
-              <option>iPhone 15 Pro</option>
-              <option>iPhone 15 Pro Max</option>
-              <option>iPhone 16</option>
-              <option>iPhone 16 Plus</option>
-              <option>iPhone 16 Pro</option>
-              <option>iPhone 16 Pro Max</option>
-              <option>iPhone 16e</option>
-              <option>iPhone 17</option>
-              <option>iPhone 17 Pro</option>
-              <option>iPhone 17 Pro Max</option>
+            <label for="marque">Marque *</label>
+            <select id="marque" name="Marque" required>
+              <option value="">Sélectionnez la marque</option>
+              <option value="Apple">Apple</option>
+              <option value="Samsung">Samsung</option>
+              <option value="Xiaomi">Xiaomi</option>
+              <option value="Oppo">Oppo</option>
+              <option value="OnePlus">OnePlus</option>
+              <option value="Huawei">Huawei</option>
+              <option value="Honor">Honor</option>
+              <option value="Autre">Autre marque</option>
             </select>
+          </div>
+
+          <div class="field">
+            <label for="modele">Modèle *</label>
+            <select id="modele" name="Modèle" required disabled>
+              <option value="">Sélectionnez d'abord une marque</option>
+            </select>
+          </div>
+
+          <div class="field full" id="autreModeleBlock" style="display:none;">
+            <label for="autreModele">Autre modèle</label>
+            <input type="text" id="autreModele" name="Autre modèle" placeholder="Ex : Sony Xperia, Motorola, Nokia, Realme..." />
           </div>
 
           <div class="field">
@@ -439,6 +417,96 @@
 
   <script>
     const TELEPHONE_DIRECT = "06.XX.XX.XX.XX"; // Remplace par ton vrai numéro
+
+    const modelesParMarque = {
+      Apple: [
+        "iPhone 6", "iPhone 6 Plus", "iPhone 6s", "iPhone 6s Plus", "iPhone SE 1re génération",
+        "iPhone 7", "iPhone 7 Plus", "iPhone 8", "iPhone 8 Plus", "iPhone X", "iPhone XR", "iPhone XS", "iPhone XS Max",
+        "iPhone 11", "iPhone 11 Pro", "iPhone 11 Pro Max", "iPhone SE 2e génération",
+        "iPhone 12 mini", "iPhone 12", "iPhone 12 Pro", "iPhone 12 Pro Max",
+        "iPhone 13 mini", "iPhone 13", "iPhone 13 Pro", "iPhone 13 Pro Max", "iPhone SE 3e génération",
+        "iPhone 14", "iPhone 14 Plus", "iPhone 14 Pro", "iPhone 14 Pro Max",
+        "iPhone 15", "iPhone 15 Plus", "iPhone 15 Pro", "iPhone 15 Pro Max",
+        "iPhone 16", "iPhone 16 Plus", "iPhone 16 Pro", "iPhone 16 Pro Max", "iPhone 16e",
+        "iPhone 17", "iPhone Air", "iPhone 17 Pro", "iPhone 17 Pro Max", "iPhone 17e"
+      ],
+      Samsung: [
+        "Galaxy S6", "Galaxy S6 Edge", "Galaxy S6 Edge+", "Galaxy S7", "Galaxy S7 Edge",
+        "Galaxy S8", "Galaxy S8+", "Galaxy S9", "Galaxy S9+", "Galaxy S10e", "Galaxy S10", "Galaxy S10+", "Galaxy S10 5G",
+        "Galaxy S20", "Galaxy S20+", "Galaxy S20 Ultra", "Galaxy S20 FE",
+        "Galaxy S21", "Galaxy S21+", "Galaxy S21 Ultra", "Galaxy S21 FE",
+        "Galaxy S22", "Galaxy S22+", "Galaxy S22 Ultra", "Galaxy S23", "Galaxy S23+", "Galaxy S23 Ultra", "Galaxy S23 FE",
+        "Galaxy S24", "Galaxy S24+", "Galaxy S24 Ultra", "Galaxy S24 FE",
+        "Galaxy S25", "Galaxy S25+", "Galaxy S25 Ultra", "Galaxy S25 Edge", "Galaxy S25 FE",
+        "Galaxy S26", "Galaxy S26+", "Galaxy S26 Ultra",
+        "Galaxy Note 5", "Galaxy Note 7", "Galaxy Note 8", "Galaxy Note 9", "Galaxy Note 10", "Galaxy Note 10+", "Galaxy Note 20", "Galaxy Note 20 Ultra",
+        "Galaxy Z Flip", "Galaxy Z Flip 3", "Galaxy Z Flip 4", "Galaxy Z Flip 5", "Galaxy Z Flip 6", "Galaxy Z Flip 7",
+        "Galaxy Z Fold", "Galaxy Z Fold 2", "Galaxy Z Fold 3", "Galaxy Z Fold 4", "Galaxy Z Fold 5", "Galaxy Z Fold 6", "Galaxy Z Fold 7",
+        "Galaxy A10", "Galaxy A12", "Galaxy A13", "Galaxy A14", "Galaxy A15", "Galaxy A16", "Galaxy A20e", "Galaxy A21s", "Galaxy A22", "Galaxy A23", "Galaxy A25",
+        "Galaxy A30s", "Galaxy A32", "Galaxy A33", "Galaxy A34", "Galaxy A35", "Galaxy A40", "Galaxy A41", "Galaxy A42", "Galaxy A50", "Galaxy A51", "Galaxy A52", "Galaxy A53", "Galaxy A54", "Galaxy A55", "Galaxy A56",
+        "Galaxy A70", "Galaxy A71", "Galaxy A72", "Galaxy A73"
+      ],
+      Xiaomi: [
+        "Mi 5", "Mi 5s", "Mi 6", "Mi 8", "Mi 8 Pro", "Mi 9", "Mi 9T", "Mi 9T Pro", "Mi 10", "Mi 10 Pro", "Mi 10T", "Mi 10T Pro", "Mi 11", "Mi 11 Lite", "Mi 11 Ultra",
+        "Xiaomi 11T", "Xiaomi 11T Pro", "Xiaomi 12", "Xiaomi 12 Pro", "Xiaomi 12T", "Xiaomi 12T Pro", "Xiaomi 13", "Xiaomi 13 Pro", "Xiaomi 13T", "Xiaomi 13T Pro", "Xiaomi 13 Ultra",
+        "Xiaomi 14", "Xiaomi 14 Pro", "Xiaomi 14 Ultra", "Xiaomi 14T", "Xiaomi 14T Pro", "Xiaomi 15", "Xiaomi 15 Pro", "Xiaomi 15 Ultra", "Xiaomi 15T", "Xiaomi 15T Pro", "Xiaomi 17", "Xiaomi 17 Pro", "Xiaomi 17 Ultra",
+        "Redmi Note 5", "Redmi Note 6 Pro", "Redmi Note 7", "Redmi Note 8", "Redmi Note 8 Pro", "Redmi Note 9", "Redmi Note 9 Pro", "Redmi Note 10", "Redmi Note 10 Pro", "Redmi Note 11", "Redmi Note 11 Pro",
+        "Redmi Note 12", "Redmi Note 12 Pro", "Redmi Note 13", "Redmi Note 13 Pro", "Redmi Note 14", "Redmi Note 14 Pro", "Redmi Note 15", "Redmi Note 15 Pro",
+        "POCO F1", "POCO F2 Pro", "POCO F3", "POCO F4", "POCO F5", "POCO F5 Pro", "POCO F6", "POCO F6 Pro", "POCO F7", "POCO F7 Ultra", "POCO F8 Pro", "POCO F8 Ultra",
+        "POCO X3", "POCO X3 Pro", "POCO X4 Pro", "POCO X5", "POCO X5 Pro", "POCO X6", "POCO X6 Pro", "POCO X7", "POCO X7 Pro", "POCO X8 Pro"
+      ],
+      Oppo: [
+        "Oppo Find 7", "Oppo Find X", "Oppo Find X2", "Oppo Find X2 Pro", "Oppo Find X3 Lite", "Oppo Find X3 Neo", "Oppo Find X3 Pro",
+        "Oppo Find X5", "Oppo Find X5 Lite", "Oppo Find X5 Pro", "Oppo Find X6", "Oppo Find X6 Pro", "Oppo Find X7", "Oppo Find X7 Ultra", "Oppo Find X8", "Oppo Find X8 Pro", "Oppo Find X9", "Oppo Find X9 Ultra",
+        "Oppo Reno", "Oppo Reno 2", "Oppo Reno 3", "Oppo Reno 4", "Oppo Reno 4 Pro", "Oppo Reno 5", "Oppo Reno 6", "Oppo Reno 6 Pro", "Oppo Reno 7", "Oppo Reno 8", "Oppo Reno 8 Pro", "Oppo Reno 10", "Oppo Reno 11", "Oppo Reno 12", "Oppo Reno 13",
+        "Oppo A53", "Oppo A54", "Oppo A57", "Oppo A72", "Oppo A74", "Oppo A76", "Oppo A77", "Oppo A78", "Oppo A79", "Oppo A94", "Oppo A96", "Oppo A98"
+      ],
+      OnePlus: [
+        "OnePlus One", "OnePlus 2", "OnePlus X", "OnePlus 3", "OnePlus 3T", "OnePlus 5", "OnePlus 5T", "OnePlus 6", "OnePlus 6T", "OnePlus 7", "OnePlus 7 Pro", "OnePlus 7T", "OnePlus 7T Pro",
+        "OnePlus 8", "OnePlus 8 Pro", "OnePlus 8T", "OnePlus 9", "OnePlus 9 Pro", "OnePlus 9R", "OnePlus 10 Pro", "OnePlus 10T", "OnePlus 11", "OnePlus 12", "OnePlus 12R", "OnePlus 13", "OnePlus 13R",
+        "OnePlus Nord", "OnePlus Nord 2", "OnePlus Nord 2T", "OnePlus Nord 3", "OnePlus Nord 4", "OnePlus Nord CE", "OnePlus Nord CE 2", "OnePlus Nord CE 3", "OnePlus Nord CE 4", "OnePlus Nord N10", "OnePlus Nord N100", "OnePlus Nord N20", "OnePlus Nord N30"
+      ],
+      Huawei: [
+        "Huawei P8", "Huawei P9", "Huawei P9 Lite", "Huawei P10", "Huawei P10 Lite", "Huawei P20", "Huawei P20 Lite", "Huawei P20 Pro", "Huawei P30", "Huawei P30 Lite", "Huawei P30 Pro",
+        "Huawei P40", "Huawei P40 Lite", "Huawei P40 Pro", "Huawei P40 Pro+", "Huawei P50", "Huawei P50 Pro", "Huawei P60", "Huawei P60 Pro", "Huawei Pura 70", "Huawei Pura 70 Pro", "Huawei Pura 70 Ultra",
+        "Huawei Mate 8", "Huawei Mate 9", "Huawei Mate 10", "Huawei Mate 10 Pro", "Huawei Mate 20", "Huawei Mate 20 Pro", "Huawei Mate 30", "Huawei Mate 30 Pro", "Huawei Mate 40", "Huawei Mate 40 Pro", "Huawei Mate 50", "Huawei Mate 50 Pro", "Huawei Mate 60", "Huawei Mate 60 Pro",
+        "Huawei Nova", "Huawei Nova 2", "Huawei Nova 3", "Huawei Nova 5T", "Huawei Nova 7", "Huawei Nova 8", "Huawei Nova 9", "Huawei Nova 10", "Huawei Nova 11", "Huawei Nova 12"
+      ],
+      Honor: [
+        "Honor 6", "Honor 7", "Honor 8", "Honor 8 Pro", "Honor 9", "Honor 10", "Honor 20", "Honor 20 Pro", "Honor 30", "Honor 30 Pro", "Honor 50", "Honor 70", "Honor 90", "Honor 90 Lite", "Honor 100", "Honor 200", "Honor 200 Pro", "Honor 400", "Honor 400 Pro",
+        "Honor View 10", "Honor View 20", "Honor Magic 2", "Honor Magic 3", "Honor Magic 4", "Honor Magic 4 Pro", "Honor Magic 5", "Honor Magic 5 Pro", "Honor Magic 6", "Honor Magic 6 Pro", "Honor Magic 7", "Honor Magic 7 Pro",
+        "Honor X6", "Honor X7", "Honor X8", "Honor X8a", "Honor X9", "Honor X9a"
+      ],
+      Autre: ["Autre modèle / je ne sais pas"]
+    };
+
+    const marqueSelect = document.getElementById("marque");
+    const modeleSelect = document.getElementById("modele");
+    const autreModeleBlock = document.getElementById("autreModeleBlock");
+
+    marqueSelect.addEventListener("change", function() {
+      const marque = this.value;
+      modeleSelect.innerHTML = "";
+
+      if (!marque) {
+        modeleSelect.disabled = true;
+        modeleSelect.innerHTML = '<option value="">Sélectionnez d\'abord une marque</option>';
+        autreModeleBlock.style.display = "none";
+        return;
+      }
+
+      modeleSelect.disabled = false;
+      modeleSelect.innerHTML = '<option value="">Sélectionnez votre modèle</option>';
+
+      modelesParMarque[marque].forEach(function(modele) {
+        const option = document.createElement("option");
+        option.value = modele;
+        option.textContent = modele;
+        modeleSelect.appendChild(option);
+      });
+
+      autreModeleBlock.style.display = marque === "Autre" ? "flex" : "none";
+    });
 
     document.querySelectorAll(".px-call strong, .success-call a").forEach(function(element) {
       element.textContent = TELEPHONE_DIRECT;
