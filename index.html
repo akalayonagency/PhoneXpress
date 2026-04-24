@@ -4,18 +4,20 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Demande de réparation - Phone Xpress</title>
+
   <style>
     :root {
       --px-blue: #1497e8;
       --px-blue-dark: #056bb1;
       --px-white: #ffffff;
       --px-grey: rgba(255,255,255,0.76);
-      --px-dark: rgba(10, 15, 22, 0.86);
       --px-border: rgba(255,255,255,0.22);
       --px-shadow: rgba(0, 153, 255, 0.35);
     }
 
-    * { box-sizing: border-box; }
+    * {
+      box-sizing: border-box;
+    }
 
     body {
       margin: 0;
@@ -113,7 +115,9 @@
       gap: 7px;
     }
 
-    .field.full { grid-column: 1 / -1; }
+    .field.full {
+      grid-column: 1 / -1;
+    }
 
     label {
       font-size: 14px;
@@ -123,7 +127,9 @@
       letter-spacing: 0.5px;
     }
 
-    input, select, textarea {
+    input,
+    select,
+    textarea {
       width: 100%;
       border: 1px solid rgba(255,255,255,0.18);
       border-radius: 14px;
@@ -145,7 +151,9 @@
       resize: vertical;
     }
 
-    input:focus, select:focus, textarea:focus {
+    input:focus,
+    select:focus,
+    textarea:focus {
       border-color: var(--px-blue);
       box-shadow: 0 0 0 4px rgba(20,151,232,0.18), 0 0 22px rgba(20,151,232,0.24);
       background: rgba(255,255,255,0.14);
@@ -195,7 +203,9 @@
       font-size: 14px;
     }
 
-    .px-call strong { color: var(--px-blue); }
+    .px-call strong {
+      color: var(--px-blue);
+    }
 
     .success-page {
       display: none;
@@ -241,14 +251,30 @@
     }
 
     @media (max-width: 720px) {
-      .px-wrapper { padding: 14px; }
-      .px-content { padding: 22px; }
-      .px-header { align-items: flex-start; flex-direction: column; }
-      .px-badge { width: 100%; }
-      form { grid-template-columns: 1fr; }
+      .px-wrapper {
+        padding: 14px;
+      }
+
+      .px-content {
+        padding: 22px;
+      }
+
+      .px-header {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .px-badge {
+        width: 100%;
+      }
+
+      form {
+        grid-template-columns: 1fr;
+      }
     }
   </style>
 </head>
+
 <body>
   <div class="px-wrapper">
     <div class="px-card">
@@ -261,15 +287,22 @@
           <div class="px-badge">Diagnostic rapide</div>
         </div>
 
-        <form id="repairForm">
+        <form id="repairForm" action="https://formspree.io/f/xvzdlvbo" method="POST">
+          <input type="hidden" name="_subject" value="Nouvelle demande de réparation Phone Xpress" />
+
           <div class="field">
             <label for="nom">Nom et prénom *</label>
             <input type="text" id="nom" name="Nom et prénom" placeholder="Ex : Jean Dupont" required />
           </div>
 
           <div class="field">
-            <label for="contact">Portable ou mail *</label>
-            <input type="text" id="contact" name="Contact" placeholder="06.XX.XX.XX.XX ou mail" required />
+            <label for="telephone">Numéro de portable *</label>
+            <input type="tel" id="telephone" name="Téléphone" placeholder="06.XX.XX.XX.XX" required />
+          </div>
+
+          <div class="field">
+            <label for="email">Adresse mail</label>
+            <input type="email" id="email" name="email" placeholder="exemple@mail.com" />
           </div>
 
           <div class="field">
@@ -357,9 +390,9 @@
             </select>
           </div>
 
-          <div class="field">
-            <label for="probleme3">Autre problème</label>
-            <select id="probleme3" name="Autre problème">
+          <div class="field full">
+            <label for="probleme3">Autre problème éventuel</label>
+            <select id="probleme3" name="Autre problème éventuel">
               <option value="">Aucun / non concerné</option>
               <option>Écran cassé / tactile</option>
               <option>Batterie</option>
@@ -376,12 +409,12 @@
           </div>
 
           <div class="field full">
-            <label for="description">Décrivez le problème</label>
-            <textarea id="description" name="Description" placeholder="Ex : écran noir, batterie qui ne tient plus, téléphone tombé, Face ID HS..."></textarea>
+            <label for="message">Décrivez le problème</label>
+            <textarea id="message" name="message" placeholder="Ex : écran noir, batterie qui ne tient plus, téléphone tombé, Face ID HS..."></textarea>
           </div>
 
           <div class="px-note">
-            Une fois validée, la demande ouvre votre messagerie avec toutes les informations pré-remplies. Pour une réception automatique sans ouverture de messagerie, il faudra brancher ce formulaire à un service type Formspree, Brevo, Make/Zapier ou à un petit script PHP.
+            Après validation, la demande est envoyée directement par mail via Formspree. Vous recevrez les informations du client, le modèle et les problèmes sélectionnés.
           </div>
 
           <div class="px-actions">
@@ -393,7 +426,7 @@
 
       <div class="success-page" id="successPage">
         <h2>Demande bien envoyée</h2>
-        <p>Merci ! Votre demande de réparation a bien été préparée. Nous revenons vers vous rapidement pour le diagnostic et le tarif.</p>
+        <p>Merci ! Votre demande de réparation a bien été envoyée. Nous revenons vers vous rapidement pour le diagnostic et le tarif.</p>
         <div class="success-call">
           Vous souhaitez une réponse plus rapide ?<br />
           Appelez directement le <a href="tel:06XXXXXXXX">06.XX.XX.XX.XX</a>
@@ -405,42 +438,52 @@
   </div>
 
   <script>
-    const EMAIL_DESTINATION = "contact@phonexpress.fr"; // Remplace par ton vrai mail
     const TELEPHONE_DIRECT = "06.XX.XX.XX.XX"; // Remplace par ton vrai numéro
 
-    document.querySelectorAll(".px-call strong, .success-call a").forEach(el => {
-      el.textContent = TELEPHONE_DIRECT;
-      if (el.tagName.toLowerCase() === "a") {
-        el.href = "tel:" + TELEPHONE_DIRECT.replace(/\D/g, "");
+    document.querySelectorAll(".px-call strong, .success-call a").forEach(function(element) {
+      element.textContent = TELEPHONE_DIRECT;
+      if (element.tagName.toLowerCase() === "a") {
+        element.href = "tel:" + TELEPHONE_DIRECT.replace(/\D/g, "");
       }
     });
 
-    document.getElementById("repairForm").addEventListener("submit", function(e) {
-      e.preventDefault();
+    document.getElementById("repairForm").addEventListener("submit", async function(event) {
+      event.preventDefault();
 
-      const form = e.target;
-      const data = new FormData(form);
-      const subject = "Nouvelle demande de réparation Phone Xpress";
+      const form = event.target;
+      const button = form.querySelector("button[type='submit']");
+      const originalButtonText = button.textContent;
 
-      let body = "Nouvelle demande de réparation :\n\n";
-      for (const [key, value] of data.entries()) {
-        body += key + " : " + (value || "Non renseigné") + "\n";
+      button.textContent = "Envoi en cours...";
+      button.disabled = true;
+
+      try {
+        const response = await fetch(form.action, {
+          method: form.method,
+          body: new FormData(form),
+          headers: {
+            "Accept": "application/json"
+          }
+        });
+
+        if (response.ok) {
+          form.reset();
+          document.getElementById("formPage").style.display = "none";
+          document.getElementById("successPage").style.display = "block";
+        } else {
+          alert("Une erreur est survenue. Merci de réessayer ou d'appeler directement Phone Xpress.");
+        }
+      } catch (error) {
+        alert("Impossible d'envoyer la demande. Vérifiez votre connexion ou appelez directement Phone Xpress.");
       }
 
-      const mailtoLink = "mailto:" + encodeURIComponent(EMAIL_DESTINATION)
-        + "?subject=" + encodeURIComponent(subject)
-        + "&body=" + encodeURIComponent(body);
-
-      window.location.href = mailtoLink;
-
-      document.getElementById("formPage").style.display = "none";
-      document.getElementById("successPage").style.display = "block";
+      button.textContent = originalButtonText;
+      button.disabled = false;
     });
 
     function retourFormulaire() {
       document.getElementById("successPage").style.display = "none";
       document.getElementById("formPage").style.display = "block";
-      document.getElementById("repairForm").reset();
     }
   </script>
 </body>
