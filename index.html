@@ -37,6 +37,7 @@
     .px-card {
       position: relative;
       overflow: hidden;
+      isolation: isolate;
       border: 1px solid var(--px-border);
       border-radius: 22px;
       background: linear-gradient(135deg, rgba(8, 16, 26, 0.92), rgba(10, 10, 10, 0.76));
@@ -47,16 +48,102 @@
     .px-card::before {
       content: "";
       position: absolute;
-      inset: -40%;
+      inset: 0;
       background:
-        radial-gradient(circle at 18% 20%, rgba(20,151,232,0.32), transparent 32%),
-        radial-gradient(circle at 88% 14%, rgba(255,255,255,0.12), transparent 22%),
-        linear-gradient(115deg, transparent 44%, rgba(20,151,232,0.28) 45%, rgba(255,255,255,0.82) 48%, rgba(20,151,232,0.25) 51%, transparent 52%);
+        radial-gradient(circle at 18% 20%, rgba(20,151,232,0.18), transparent 28%),
+        radial-gradient(circle at 88% 14%, rgba(255,255,255,0.08), transparent 18%),
+        radial-gradient(circle at 78% 82%, rgba(20,151,232,0.12), transparent 24%);
       pointer-events: none;
+      z-index: 0;
+    }
+
+    .float-dot {
+      position: absolute;
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 1;
+      background: var(--px-blue);
+      box-shadow: 0 0 12px rgba(20,151,232,0.75);
+      opacity: 0.9;
+      animation: floatDot 7s ease-in-out infinite;
+    }
+
+    .float-dot.dark {
+      width: 6px;
+      height: 6px;
+      background: rgba(0, 10, 18, 0.95);
+      box-shadow: 0 0 10px rgba(0,0,0,0.35);
+    }
+
+    .d1 {
+      top: 28px;
+      left: 28%;
+      animation-delay: 0s;
+    }
+
+    .d2 {
+      top: 34px;
+      right: 50%;
+      animation-delay: 1.4s;
+    }
+
+    .d3 {
+      top: 165px;
+      left: 26%;
+      animation-delay: 2.2s;
+    }
+
+    .d4 {
+      top: 120px;
+      right: 33%;
+      animation-delay: 3.1s;
+    }
+
+    .d5 {
+      bottom: 42px;
+      right: 18%;
+      animation-delay: 4s;
+    }
+
+    .d6 {
+      bottom: 180px;
+      left: 13%;
+      animation-delay: 2.7s;
+    }
+
+    .d7 {
+      top: 52%;
+      right: 12%;
+      animation-delay: 5.1s;
+    }
+
+    @keyframes floatDot {
+      0%, 100% {
+        transform: translateY(0) translateX(0);
+        opacity: 0.75;
+      }
+
+      25% {
+        transform: translateY(-8px) translateX(5px);
+        opacity: 1;
+      }
+
+      50% {
+        transform: translateY(6px) translateX(-4px);
+        opacity: 0.55;
+      }
+
+      75% {
+        transform: translateY(-4px) translateX(6px);
+        opacity: 0.9;
+      }
     }
 
     .px-content {
       position: relative;
+      z-index: 2;
       padding: 30px;
     }
 
@@ -198,6 +285,12 @@
       box-shadow: 0 18px 42px rgba(20,151,232,0.52);
     }
 
+    button:disabled {
+      opacity: 0.7;
+      cursor: not-allowed;
+      transform: none;
+    }
+
     .px-call {
       color: rgba(255,255,255,0.84);
       font-size: 14px;
@@ -208,6 +301,8 @@
     }
 
     .success-page {
+      position: relative;
+      z-index: 2;
       display: none;
       text-align: center;
       padding: 46px 28px;
@@ -271,6 +366,41 @@
       form {
         grid-template-columns: 1fr;
       }
+
+      .d1 {
+        top: 24px;
+        left: 32%;
+      }
+
+      .d2 {
+        top: 42px;
+        right: 24%;
+      }
+
+      .d3 {
+        top: 235px;
+        left: 18%;
+      }
+
+      .d4 {
+        top: 150px;
+        right: 15%;
+      }
+
+      .d5 {
+        bottom: 60px;
+        right: 20%;
+      }
+
+      .d6 {
+        bottom: 220px;
+        left: 12%;
+      }
+
+      .d7 {
+        top: 58%;
+        right: 9%;
+      }
     }
   </style>
 </head>
@@ -278,6 +408,15 @@
 <body>
   <div class="px-wrapper">
     <div class="px-card">
+
+      <span class="float-dot d1"></span>
+      <span class="float-dot dark d2"></span>
+      <span class="float-dot d3"></span>
+      <span class="float-dot dark d4"></span>
+      <span class="float-dot d5"></span>
+      <span class="float-dot dark d6"></span>
+      <span class="float-dot d7"></span>
+
       <div class="px-content" id="formPage">
         <div class="px-header">
           <div class="px-title">
@@ -416,7 +555,7 @@
   </div>
 
   <script>
-    const TELEPHONE_DIRECT = "07.84.19.56.91"; // Remplace par ton vrai numéro
+    const TELEPHONE_DIRECT = "07.84.19.56.91";
 
     const modelesParMarque = {
       Apple: [
@@ -430,6 +569,7 @@
         "iPhone 16", "iPhone 16 Plus", "iPhone 16 Pro", "iPhone 16 Pro Max", "iPhone 16e",
         "iPhone 17", "iPhone Air", "iPhone 17 Pro", "iPhone 17 Pro Max", "iPhone 17e"
       ],
+
       Samsung: [
         "Galaxy S6", "Galaxy S6 Edge", "Galaxy S6 Edge+", "Galaxy S7", "Galaxy S7 Edge",
         "Galaxy S8", "Galaxy S8+", "Galaxy S9", "Galaxy S9+", "Galaxy S10e", "Galaxy S10", "Galaxy S10+", "Galaxy S10 5G",
@@ -446,6 +586,7 @@
         "Galaxy A30s", "Galaxy A32", "Galaxy A33", "Galaxy A34", "Galaxy A35", "Galaxy A40", "Galaxy A41", "Galaxy A42", "Galaxy A50", "Galaxy A51", "Galaxy A52", "Galaxy A53", "Galaxy A54", "Galaxy A55", "Galaxy A56",
         "Galaxy A70", "Galaxy A71", "Galaxy A72", "Galaxy A73"
       ],
+
       Xiaomi: [
         "Mi 5", "Mi 5s", "Mi 6", "Mi 8", "Mi 8 Pro", "Mi 9", "Mi 9T", "Mi 9T Pro", "Mi 10", "Mi 10 Pro", "Mi 10T", "Mi 10T Pro", "Mi 11", "Mi 11 Lite", "Mi 11 Ultra",
         "Xiaomi 11T", "Xiaomi 11T Pro", "Xiaomi 12", "Xiaomi 12 Pro", "Xiaomi 12T", "Xiaomi 12T Pro", "Xiaomi 13", "Xiaomi 13 Pro", "Xiaomi 13T", "Xiaomi 13T Pro", "Xiaomi 13 Ultra",
@@ -455,29 +596,36 @@
         "POCO F1", "POCO F2 Pro", "POCO F3", "POCO F4", "POCO F5", "POCO F5 Pro", "POCO F6", "POCO F6 Pro", "POCO F7", "POCO F7 Ultra", "POCO F8 Pro", "POCO F8 Ultra",
         "POCO X3", "POCO X3 Pro", "POCO X4 Pro", "POCO X5", "POCO X5 Pro", "POCO X6", "POCO X6 Pro", "POCO X7", "POCO X7 Pro", "POCO X8 Pro"
       ],
+
       Oppo: [
         "Oppo Find 7", "Oppo Find X", "Oppo Find X2", "Oppo Find X2 Pro", "Oppo Find X3 Lite", "Oppo Find X3 Neo", "Oppo Find X3 Pro",
         "Oppo Find X5", "Oppo Find X5 Lite", "Oppo Find X5 Pro", "Oppo Find X6", "Oppo Find X6 Pro", "Oppo Find X7", "Oppo Find X7 Ultra", "Oppo Find X8", "Oppo Find X8 Pro", "Oppo Find X9", "Oppo Find X9 Ultra",
         "Oppo Reno", "Oppo Reno 2", "Oppo Reno 3", "Oppo Reno 4", "Oppo Reno 4 Pro", "Oppo Reno 5", "Oppo Reno 6", "Oppo Reno 6 Pro", "Oppo Reno 7", "Oppo Reno 8", "Oppo Reno 8 Pro", "Oppo Reno 10", "Oppo Reno 11", "Oppo Reno 12", "Oppo Reno 13",
         "Oppo A53", "Oppo A54", "Oppo A57", "Oppo A72", "Oppo A74", "Oppo A76", "Oppo A77", "Oppo A78", "Oppo A79", "Oppo A94", "Oppo A96", "Oppo A98"
       ],
+
       OnePlus: [
         "OnePlus One", "OnePlus 2", "OnePlus X", "OnePlus 3", "OnePlus 3T", "OnePlus 5", "OnePlus 5T", "OnePlus 6", "OnePlus 6T", "OnePlus 7", "OnePlus 7 Pro", "OnePlus 7T", "OnePlus 7T Pro",
         "OnePlus 8", "OnePlus 8 Pro", "OnePlus 8T", "OnePlus 9", "OnePlus 9 Pro", "OnePlus 9R", "OnePlus 10 Pro", "OnePlus 10T", "OnePlus 11", "OnePlus 12", "OnePlus 12R", "OnePlus 13", "OnePlus 13R",
         "OnePlus Nord", "OnePlus Nord 2", "OnePlus Nord 2T", "OnePlus Nord 3", "OnePlus Nord 4", "OnePlus Nord CE", "OnePlus Nord CE 2", "OnePlus Nord CE 3", "OnePlus Nord CE 4", "OnePlus Nord N10", "OnePlus Nord N100", "OnePlus Nord N20", "OnePlus Nord N30"
       ],
+
       Huawei: [
         "Huawei P8", "Huawei P9", "Huawei P9 Lite", "Huawei P10", "Huawei P10 Lite", "Huawei P20", "Huawei P20 Lite", "Huawei P20 Pro", "Huawei P30", "Huawei P30 Lite", "Huawei P30 Pro",
         "Huawei P40", "Huawei P40 Lite", "Huawei P40 Pro", "Huawei P40 Pro+", "Huawei P50", "Huawei P50 Pro", "Huawei P60", "Huawei P60 Pro", "Huawei Pura 70", "Huawei Pura 70 Pro", "Huawei Pura 70 Ultra",
         "Huawei Mate 8", "Huawei Mate 9", "Huawei Mate 10", "Huawei Mate 10 Pro", "Huawei Mate 20", "Huawei Mate 20 Pro", "Huawei Mate 30", "Huawei Mate 30 Pro", "Huawei Mate 40", "Huawei Mate 40 Pro", "Huawei Mate 50", "Huawei Mate 50 Pro", "Huawei Mate 60", "Huawei Mate 60 Pro",
         "Huawei Nova", "Huawei Nova 2", "Huawei Nova 3", "Huawei Nova 5T", "Huawei Nova 7", "Huawei Nova 8", "Huawei Nova 9", "Huawei Nova 10", "Huawei Nova 11", "Huawei Nova 12"
       ],
+
       Honor: [
         "Honor 6", "Honor 7", "Honor 8", "Honor 8 Pro", "Honor 9", "Honor 10", "Honor 20", "Honor 20 Pro", "Honor 30", "Honor 30 Pro", "Honor 50", "Honor 70", "Honor 90", "Honor 90 Lite", "Honor 100", "Honor 200", "Honor 200 Pro", "Honor 400", "Honor 400 Pro",
         "Honor View 10", "Honor View 20", "Honor Magic 2", "Honor Magic 3", "Honor Magic 4", "Honor Magic 4 Pro", "Honor Magic 5", "Honor Magic 5 Pro", "Honor Magic 6", "Honor Magic 6 Pro", "Honor Magic 7", "Honor Magic 7 Pro",
         "Honor X6", "Honor X7", "Honor X8", "Honor X8a", "Honor X9", "Honor X9a"
       ],
-      Autre: ["Autre modèle / je ne sais pas"]
+
+      Autre: [
+        "Autre modèle / je ne sais pas"
+      ]
     };
 
     const marqueSelect = document.getElementById("marque");
@@ -510,6 +658,7 @@
 
     document.querySelectorAll(".px-call strong, .success-call a").forEach(function(element) {
       element.textContent = TELEPHONE_DIRECT;
+
       if (element.tagName.toLowerCase() === "a") {
         element.href = "tel:" + TELEPHONE_DIRECT.replace(/\D/g, "");
       }
@@ -536,6 +685,10 @@
 
         if (response.ok) {
           form.reset();
+          modeleSelect.disabled = true;
+          modeleSelect.innerHTML = '<option value="">Sélectionnez d\'abord une marque</option>';
+          autreModeleBlock.style.display = "none";
+
           document.getElementById("formPage").style.display = "none";
           document.getElementById("successPage").style.display = "block";
         } else {
